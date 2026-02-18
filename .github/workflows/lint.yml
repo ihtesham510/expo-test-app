@@ -3,7 +3,7 @@ on:
   push:
     branches: ["*"]
 jobs:
-  build:
+  check-lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
