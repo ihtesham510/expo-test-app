@@ -1,5 +1,4 @@
 name: check lints
-
 on:
   push:
     branches: ["*"]
@@ -8,9 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: setup bun
-      - uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@v2
 
       - name: install dependencies
         run: bun install
