@@ -3,20 +3,20 @@ name: check lints
 on:
   push:
     branches: ["*"]
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
+      - name: setup bun
       - uses: oven-sh/setup-bun@v2
+
       - name: install dependencies
-      - run: bun install
+        run: bun install
 
       - name: check lint
-      - run: bun run lint
+        run: bun run lint
 
       - name: expo doctor
-      - run: bunx expo-doctor
+        run: bunx expo-doctor
