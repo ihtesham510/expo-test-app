@@ -13,7 +13,7 @@
 		},
 		"android": {
 			"googleServicesFile": "./google-services.json",
-			"package": "dev.expo.testapp",
+			"package": "com.ihtesham510.testapp.app",
 			"adaptiveIcon": {
 				"backgroundColor": "#E6F4FE",
 				"foregroundImage": "./assets/images/android-icon-foreground.png",
