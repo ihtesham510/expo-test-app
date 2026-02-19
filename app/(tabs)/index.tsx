@@ -1,15 +1,16 @@
+import { useMutation, useQuery } from 'convex/react'
+import { Image } from 'expo-image'
+import { Link } from 'expo-router'
+import { Platform, Pressable, StyleSheet } from 'react-native'
 import { HelloWave } from '@/components/hello-wave'
 import ParallaxScrollView from '@/components/parallax-scroll-view'
 import { ThemedText } from '@/components/themed-text'
 import { ThemedView } from '@/components/themed-view'
 import { api } from '@/convex/_generated/api'
-import { useQuery } from 'convex/react'
-import { Image } from 'expo-image'
-import { Link } from 'expo-router'
-import { Platform, StyleSheet } from 'react-native'
 
 export default function HomeScreen() {
 	const user = useQuery(api.auth.getCurrentUser)
+	const sendNotification = useMutation(api.notifications.sendPushNotification)
 	return (
 		<ParallaxScrollView
 			headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -59,6 +60,26 @@ export default function HomeScreen() {
 					<ThemedText type='defaultSemiBold'>app-example</ThemedText>.
 				</ThemedText>
 			</ThemedView>
+			{user && (
+				<ThemedView style={styles.stepContainer}>
+					<Pressable
+						onPress={async () => {
+							await sendNotification({
+								to: user._id,
+								title: 'Hellow world',
+							})
+						}}
+						style={{
+							padding: 12,
+							flex: 1,
+							justifyContent: 'center',
+							alignContent: 'center',
+						}}
+					>
+						<ThemedText type='title'>Send Notification</ThemedText>
+					</Pressable>
+				</ThemedView>
+			)}
 		</ParallaxScrollView>
 	)
 }

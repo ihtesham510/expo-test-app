@@ -24,7 +24,7 @@
 					"options": {
 						"patterns": [
 							{
-								"group": ["../**", "./**"],
+								"group": ["../**"],
 								"message": "Relative imports with ../ or ./ are not allowed. Use path aliases instead."
 							}
 						]

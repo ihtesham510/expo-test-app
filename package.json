@@ -8,12 +8,17 @@
 		"android": "expo start --android",
 		"ios": "expo start --ios",
 		"web": "expo start --web",
-		"lint": "expo lint && biome lint",
+		"lint": "expo lint && bunx expo-doctor && biome lint",
+		"build:ios:development": "eas build --platform ios --profile development",
+		"build:ios:production": "eas build --platform ios --profile production",
+		"build:android:development": "eas build --platform android --profile development",
+		"build:android:production": "eas build --platform android --profile production",
 		"format-apply": "biome format --write"
 	},
 	"dependencies": {
 		"@better-auth/expo": "1.4.9",
 		"@convex-dev/better-auth": "^0.10.10",
+		"@convex-dev/expo-push-notifications": "^0.3.1",
 		"@expo/vector-icons": "^15.0.3",
 		"@react-navigation/bottom-tabs": "^7.4.0",
 		"@react-navigation/elements": "^2.6.3",

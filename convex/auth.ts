@@ -2,10 +2,10 @@ import { expo } from '@better-auth/expo'
 import { createClient, type GenericCtx } from '@convex-dev/better-auth'
 import { convex } from '@convex-dev/better-auth/plugins'
 import { betterAuth } from 'better-auth/minimal'
-import { components } from '~/_generated/api'
-import type { DataModel } from '~/_generated/dataModel'
-import { internalQuery, query } from '~/_generated/server'
-import authConfig from '~/auth.config'
+import { components } from './_generated/api'
+import type { DataModel } from './_generated/dataModel'
+import { internalQuery, type MutationCtx, type QueryCtx, query } from './_generated/server'
+import authConfig from './auth.config'
 
 export const authComponent = createClient<DataModel>(components.betterAuth)
 
@@ -31,6 +31,12 @@ export const getCurrentUser = query({
 export const getUser = internalQuery({
 	args: {},
 	handler: async ctx => {
-		return authComponent.getAuthUser(ctx)
+		await authComponent.getAuthUser(ctx)
 	},
 })
+
+export async function getuserIdentity(ctx: QueryCtx | MutationCtx) {
+	const user = await authComponent.getAuthUser(ctx)
+	if (!user) return null
+	return user._id
+}
