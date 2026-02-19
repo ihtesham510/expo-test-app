@@ -1,16 +1,18 @@
-import { useMutation, useQuery } from 'convex/react'
-import { Image } from 'expo-image'
-import { Link } from 'expo-router'
-import { Platform, Pressable, StyleSheet } from 'react-native'
 import { HelloWave } from '@/components/hello-wave'
 import ParallaxScrollView from '@/components/parallax-scroll-view'
 import { ThemedText } from '@/components/themed-text'
 import { ThemedView } from '@/components/themed-view'
+import { useNotification } from '@/context/notification-context'
 import { api } from '@/convex/_generated/api'
+import { useMutation, useQuery } from 'convex/react'
+import { Image } from 'expo-image'
+import { Link } from 'expo-router'
+import { Pressable, StyleSheet } from 'react-native'
 
 export default function HomeScreen() {
 	const user = useQuery(api.auth.getCurrentUser)
 	const sendNotification = useMutation(api.notifications.sendPushNotification)
+	const { expoPushToken } = useNotification()
 	return (
 		<ParallaxScrollView
 			headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -22,17 +24,7 @@ export default function HomeScreen() {
 			</ThemedView>
 			<ThemedView style={styles.stepContainer}>
 				<ThemedText type='subtitle'>Step 1: Try it</ThemedText>
-				<ThemedText>
-					Edit <ThemedText type='defaultSemiBold'>app/(tabs)/index.tsx</ThemedText> to see changes. Press{' '}
-					<ThemedText type='defaultSemiBold'>
-						{Platform.select({
-							ios: 'cmd + d',
-							android: 'cmd + m',
-							web: 'F12',
-						})}
-					</ThemedText>{' '}
-					to open developer tools.
-				</ThemedText>
+				<ThemedText>{expoPushToken}</ThemedText>
 			</ThemedView>
 			<ThemedView style={styles.stepContainer}>
 				<Link href='/modal'>

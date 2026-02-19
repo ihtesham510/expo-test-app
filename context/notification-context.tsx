@@ -1,9 +1,19 @@
+import { api } from '@/convex/_generated/api'
+import { authClient } from '@/lib/auth-client'
+import { registerForPushNotificationsAsync } from '@/lib/register-for-push-notification'
 import { useMutation } from 'convex/react'
 import * as Notifications from 'expo-notifications'
 import type React from 'react'
 import { createContext, type ReactNode, useContext, useEffect, useState } from 'react'
-import { api } from '@/convex/_generated/api'
-import { registerForPushNotificationsAsync } from '@/lib/register-for-push-notification'
+
+Notifications.setNotificationHandler({
+	handleNotification: async () => ({
+		shouldPlaySound: true,
+		shouldSetBadge: true,
+		shouldShowBanner: true,
+		shouldShowList: true,
+	}),
+})
 
 interface NotificationContextType {
 	expoPushToken: string | null
@@ -30,6 +40,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
 	const [notification, setNotification] = useState<Notifications.Notification | null>(null)
 	const [error, setError] = useState<Error | null>(null)
 	const addPushToken = useMutation(api.notifications.recordPushNotificationToken)
+	const { data } = authClient.useSession()
 
 	useEffect(() => {
 		registerForPushNotificationsAsync().then(
@@ -53,12 +64,13 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
 	}, [])
 
 	useEffect(() => {
-		if (expoPushToken) {
-			;(async () => {
+		if (expoPushToken && data?.session.id) {
+			; (async () => {
+				console.log('🔔 Adding push token: ', expoPushToken)
 				await addPushToken({ token: expoPushToken })
 			})()
 		}
-	}, [expoPushToken, addPushToken])
+	}, [expoPushToken, addPushToken, data?.session.id])
 
 	return <NotificationContext.Provider value={{ expoPushToken, notification, error }}>{children}</NotificationContext.Provider>
 }

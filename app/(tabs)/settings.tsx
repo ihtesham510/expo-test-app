@@ -7,7 +7,7 @@ import { authClient } from '@/lib/auth-client'
 import { useQuery } from 'convex/react'
 import { Image } from 'expo-image'
 import { useState } from 'react'
-import { Button, StyleSheet, TextInput } from 'react-native'
+import { Pressable, StyleSheet, TextInput } from 'react-native'
 
 export default function SettingsScreen() {
 	const user = useQuery(api.auth.getCurrentUser)
@@ -17,8 +17,7 @@ export default function SettingsScreen() {
 		if (!email || !password) {
 			return
 		}
-		const res = await authClient.signUp.email({
-			name: 'ihtesham',
+		const res = await authClient.signIn.email({
 			email,
 			password,
 		})
@@ -42,7 +41,18 @@ export default function SettingsScreen() {
 				<TextInput value={password} onChangeText={e => setPassword(e)} secureTextEntry={true} />
 			</ThemedView>
 			<ThemedView style={styles.stepContainer}>
-				<Button title='Submit' onPress={handleSubmit} />
+				<Pressable
+					onPress={handleSubmit}
+					style={{
+						padding: 12,
+						backgroundColor: 'blue',
+						flex: 1,
+						justifyContent: 'center',
+						alignContent: 'center',
+					}}
+				>
+					<ThemedText type='title'>Submit</ThemedText>
+				</Pressable>
 			</ThemedView>
 		</ParallaxScrollView>
 	)

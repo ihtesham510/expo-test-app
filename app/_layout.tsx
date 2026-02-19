@@ -1,3 +1,4 @@
+import { NotificationProvider } from '@/context/notification-context'
 import { useColorScheme } from '@/hooks/use-color-scheme'
 import { ConvexClientProvider } from '@/lib/provider'
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
@@ -14,15 +15,17 @@ export default function RootLayout() {
 
 	return (
 		<ConvexClientProvider>
-			<ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-				<SafeAreaView style={{ flex: 1 }}>
-					<Stack>
-						<Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-						<Stack.Screen name='modal' options={{ presentation: 'modal', title: 'Modal' }} />
-					</Stack>
-					<StatusBar style='auto' />
-				</SafeAreaView>
-			</ThemeProvider>
+			<NotificationProvider>
+				<ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+					<SafeAreaView style={{ flex: 1 }}>
+						<Stack>
+							<Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+							<Stack.Screen name='modal' options={{ presentation: 'modal', title: 'Modal' }} />
+						</Stack>
+						<StatusBar style='auto' />
+					</SafeAreaView>
+				</ThemeProvider>
+			</NotificationProvider>
 		</ConvexClientProvider>
 	)
 }
