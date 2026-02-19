@@ -1,7 +1,7 @@
 import { PushNotifications } from '@convex-dev/expo-push-notifications'
 import { v } from 'convex/values'
 import { components } from './_generated/api'
-import { internalMutation, mutation } from './_generated/server'
+import { internalMutation, mutation, query } from './_generated/server'
 import { getuserIdentity } from './auth'
 
 const pushNotifications = new PushNotifications<string>(components.pushNotifications, {
@@ -62,5 +62,14 @@ export const sendInternalNotification = internalMutation({
 				interruptionLevel: args.interruptionLevel,
 			},
 		})
+	},
+})
+
+export const getNotifications = query({
+	args: {
+		userId: v.string(),
+	},
+	async handler(ctx, { userId }) {
+		return await pushNotifications.getNotificationsForUser(ctx, { userId })
 	},
 })
