@@ -6,7 +6,8 @@
 		"useIgnoreFile": true
 	},
 	"files": {
-		"ignoreUnknown": false
+		"ignoreUnknown": true,
+		"includes": ["**", "!**/*.gen.ts", "!**/_generated/*"]
 	},
 	"formatter": {
 		"enabled": true,
@@ -15,12 +16,30 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"style": {
+				"noNonNullAssertion": "off",
+				"noRestrictedImports": {
+					"level": "error",
+					"options": {
+						"patterns": [
+							{
+								"group": ["../**", "./**"],
+								"message": "Relative imports with ../ or ./ are not allowed. Use path aliases instead."
+							}
+						]
+					}
+				}
+			}
 		}
 	},
 	"javascript": {
 		"formatter": {
-			"quoteStyle": "double"
+			"quoteStyle": "single",
+			"jsxQuoteStyle": "single",
+			"semicolons": "asNeeded",
+			"lineWidth": 150,
+			"arrowParentheses": "asNeeded"
 		}
 	},
 	"assist": {
